@@ -1,19 +1,27 @@
 // vector.c
 #include "vector.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 
-void vector_init(Vector* vector, int element_size)
+void vector_init(Vector* v, int elem_size)
 {
-    vector->element_size = element_size;
-    vector->capacity = 1;
-    vector->size = 0;
+    v->elem_size = elem_size;
+    v->capacity = 1;
+    v->size = 0;
 
-    int *arr = malloc(element_size);
-    if (!arr) {
-        fprintf(stderr, "out of memory\n");
-        exit(1);
+    void* data = malloc(elem_size);
+    if (!data)
+    {
+        fprintf(stderr, "vector_init: malloc failed\n");
+        exit(EXIT_FAILURE);
     }
-    vector->data = arr;
+    v->data = data;
+}
+
+
+void vector_free(Vector* v)
+{
+    free(v->data);
+    v->data = NULL;
+    v->size = 0;
+    v->capacity = 0;
 }
