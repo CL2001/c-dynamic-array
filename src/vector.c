@@ -54,3 +54,51 @@ void* vector_get(Vector* v, int i)
 
     return (char*)v->data + i * v->elem_size;
 }
+
+
+void vector_set(Vector* v, int i, void* elem)
+{
+    if (i < 0 || i >= v->size)
+    {
+        fprintf(stderr, "vector_set: index %d out of bounds (size=%d)\n", i, v->size);
+        exit(EXIT_FAILURE);
+    }
+    memcpy((char*)v->data + i * v->elem_size, elem, v->elem_size);
+}
+
+
+void* vector_pop(Vector* v)
+{
+    if (v->size <= 0)
+    {
+        fprintf(stderr, "vector_pop: vector is empty\n");
+        exit(EXIT_FAILURE);
+    }
+
+    v->size--;
+    return (char*)v->data + v->size * v->elem_size;
+}
+
+
+void* vector_back(Vector* v)
+{
+    if (v->size <= 0)
+    {
+        fprintf(stderr, "vector_back: vector is empty\n");
+        exit(EXIT_FAILURE);
+    }
+
+    return (char*)v->data + (v->size - 1) * v->elem_size;
+}
+
+
+void* vector_front(Vector* v)
+{
+    if (v->size <= 0)
+    {
+        fprintf(stderr, "vector_front: vector is empty\n");
+        exit(EXIT_FAILURE);
+    }
+
+    return (char*)v->data;
+}
