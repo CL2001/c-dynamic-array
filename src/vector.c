@@ -102,3 +102,22 @@ void* vector_front(Vector* v)
 
     return (char*)v->data;
 }
+
+
+void vector_reserve(Vector* v, int new_capacity)
+{
+    if (v->capacity > new_capacity)
+    {
+        fprintf(stderr, "vector_reserve: new capacity %d smaller than previous (cap=%d)\n",
+                new_capacity, v->capacity);
+        exit(EXIT_FAILURE);
+    }
+
+    v->capacity = new_capacity;
+    v->data = realloc(v->data, v->elem_size * v->capacity);
+    if (!v->data)
+    {
+        fprintf(stderr, "vector_push_back: realloc failed\n");
+        exit(EXIT_FAILURE);
+    }
+}
